@@ -19,7 +19,6 @@ class Game:
         pygame.init()
         pygame.font.init()
         self.surface = pygame.display.set_mode((width, height))
-        self.surface.fill(pygame.Color('white'))
         pygame.display.set_caption(caption)
         self.clock = pygame.time.Clock()
         self.keydown_handlers = defaultdict(list)
@@ -58,6 +57,8 @@ class Game:
             self.handle_events()
             self.physics()
             self.update()
+            
+            self.surface.fill(pygame.Color('white'))
             self.draw(self.surface)
             pygame.display.update()
             self.clock.tick(self.frame_rate)

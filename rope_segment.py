@@ -11,7 +11,7 @@ class Segment(GameObject):
         self.speed = speed
         self.b = b
         self.angle = angle
-        self.innerangle = np.arctan(w/l) #we need it just for drawing
+        self.innerangle = np.arctan(l/w) #we need it just for drawing
         self.color = color
         self.m = m
         self.x = x
@@ -25,14 +25,10 @@ class Segment(GameObject):
         self.a1 = 0
     
     def draw(self, surface):
-        print([(self.x + self.d/2 * np.sin(self.angle - self.innerangle), self.y - self.d/2 * np.cos(self.angle - self.innerangle)), 
+        pygame.draw.polygon(surface, self.color, [(self.x + self.d/2 * np.sin(self.innerangle - self.angle), self.y - self.d/2 * np.cos(self.innerangle - self.angle)), 
         (self.x + self.d/2 * np.sin(self.angle + self.innerangle), self.y + self.d/2 * np.cos(self.angle + self.innerangle)), 
-        (self.x - self.d/2 * np.sin(self.angle + self.innerangle), self.y + self.d/2 * np.cos(self.angle + self.innerangle)), 
-        (self.x - self.d/2 * np.sin(self.angle - self.innerangle), self.y - self.w/2 * np.cos(self.angle - self.innerangle))])
-        pygame.draw.polygon(surface, self.color, [(self.x + self.d/2 * np.sin(self.angle - self.innerangle), self.y - self.d/2 * np.cos(self.angle - self.innerangle)), 
-        (self.x + self.d/2 * np.sin(self.angle + self.innerangle), self.y + self.d/2 * np.cos(self.angle + self.innerangle)), 
-        (self.x - self.d/2 * np.sin(self.angle + self.innerangle), self.y + self.d/2 * np.cos(self.angle + self.innerangle)), 
-        (self.x - self.d/2 * np.sin(self.angle - self.innerangle), self.y - self.w/2 * np.cos(self.angle - self.innerangle))])
+        (self.x - self.d/2 * np.sin(self.innerangle - self.angle), self.y + self.d/2 * np.cos(self.innerangle-self.angle)), 
+        (self.x - self.d/2 * np.sin(self.innerangle + self.angle), self.y - self.d/2 * np.cos(self.innerangle + self.angle))])
 
     def update(self):
         self.speed = (self.speed[0] + (self.F1-self.F2)*np.sin(self.angle)/self.m*(1/self.fps), self.speed[1] + ((self.F2-self.F1)*np.cos(self.angle)/self.m + self.g)*(1/self.fps))
