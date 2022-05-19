@@ -6,7 +6,7 @@ from collections import defaultdict
 # based
 
 
-class Game:
+class Window:
     def __init__(self,
                  caption,
                  width,
