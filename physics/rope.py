@@ -8,7 +8,7 @@ def physics(self):
 
     for s in self.segments:
         s.w += -1 * s.fps * s.F * s.l/2 / s.i
-        s.angle += s.w * s.fps
+        s.angle += s.w * (1/s.fps)
 
         s.set_mid_right(x, y)
         x, y = s.mid_left
