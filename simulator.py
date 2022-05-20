@@ -7,10 +7,11 @@ from utils.window import Window
 
 g = Window("Test, don't touch!!!", 720, 720, 30)
 
-a = Segment(360, 360, 50, 20, np.pi * (90/180), 10)
-b = Segment(360, 360+50, 50, 20, np.pi * (90/180), 10)
+a = Segment(360, 360, 100, 20, np.pi * (90/180), 1000)
+b = Segment(360, 360+50, 100, 20, np.pi * (0/180), 1000)
+c = Segment(360, 360, 100, 20, np.pi * (-90/180), 1000)
 
-r = Rope([a, b])
+r = Rope([a, b, c])
 g.objects.append(r)
 
 

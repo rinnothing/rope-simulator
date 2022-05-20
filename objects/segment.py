@@ -15,7 +15,7 @@ class Segment(Object):
 
     def __init__(self, x, y, l, d, angle, m, speed=(0, 0), w = 0):
         self.m = m                          #the mass 
-        self.i = 2 * m * (l**2/3 + w**2/2)  #the impulse #recalculate the impulse
+        self.i = m * (l**2 / 3 + d**2 / 8)  #the impulse #recalculate the impulse
         self.l = l                          #the length
         self.d = d                          #the diameter
         
