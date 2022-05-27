@@ -10,7 +10,6 @@ left side attached to next
 """
 class Segment(Object):
     g = 9.8
-    fps = 30
     F = 0 #perpendicular force
 
     def __init__(self, x, y, l, d, angle, m, speed=(0, 0), w = 0):
@@ -25,34 +24,35 @@ class Segment(Object):
         self.speed = speed                  #the speed (on x and y coordinate)
         self.w = w                          #the rotation speed (clockwise)
     
+    
     @property
-    def top_left(self):
-        return (self.x - self.l/2 * np.sin(self.angle) - self.d/2 * np.cos(self.angle), self.y + self.l/2 * np.cos(self.angle) - self.d/2 * np.sin(self.angle))
-
-    @property
-    def top_right(self):
+    def top_left(self): #top_left
         return (self.x + self.l/2 * np.sin(self.angle) - self.d/2 * np.cos(self.angle), self.y - self.l/2 * np.cos(self.angle) - self.d/2 * np.sin(self.angle))
     
     @property
-    def bot_left(self):
+    def bot_left(self): #bot_left
+        return (self.x - self.l/2 * np.sin(self.angle) - self.d/2 * np.cos(self.angle), self.y + self.l/2 * np.cos(self.angle) - self.d/2 * np.sin(self.angle))
+
+    @property
+    def top_right(self): #top_right
+        return (self.x + self.l/2 * np.sin(self.angle) + self.d/2 * np.cos(self.angle), self.y - self.l/2 * np.cos(self.angle) + self.d/2 * np.sin(self.angle))
+    
+    @property
+    def bot_right(self): #bot_right
         return (self.x - self.l/2 * np.sin(self.angle) + self.d/2 * np.cos(self.angle), self.y + self.l/2 * np.cos(self.angle) + self.d/2 * np.sin(self.angle))
 
     @property
-    def bot_right(self):
-        return (self.x + self.l/2 * np.sin(self.angle) + self.d/2 * np.cos(self.angle), self.y - self.l/2 * np.cos(self.angle) + self.d/2 * np.sin(self.angle))
-
-    @property
-    def mid_right(self):
+    def top_mid(self): #top_mid
         return (self.x + self.l/2 * np.sin(self.angle), self.y - self.l/2 * np.cos(self.angle))
 
     @property
-    def mid_left(self):
+    def bot_mid(self): #bot_mid
         return (self.x - self.l/2 * np.sin(self.angle), self.y + self.l/2 * np.cos(self.angle))
 
-    def set_mid_right(self, x, y):
+    def set_top_mid(self, x, y): #top_mid
         self.x = x - self.l/2 * np.sin(self.angle)
         self.y = y + self.l/2 * np.cos(self.angle)
 
-    def set_mid_left(self, x, y):
+    def set_bot_mid(self, x, y): #bot_mid
         self.x = x + self.l/2 * np.sin(self.angle)
         self.y = y - self.l/2 * np.cos(self.angle)

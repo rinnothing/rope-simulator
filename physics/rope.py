@@ -1,4 +1,5 @@
 import numpy as np
+import utils.config as cfg
 
 def physics(self):
     for s in self.segments:
@@ -7,8 +8,8 @@ def physics(self):
     x, y = self.x, self.y
 
     for s in self.segments:
-        s.w += -1 * (1/s.fps) * s.F * s.l/2 / s.i
-        s.angle += s.w * (1/s.fps)
+        s.w += -1 * (1/cfg.fps) * s.F * s.l/2 / s.i
+        s.angle += s.w * (1/cfg.fps)
 
-        s.set_mid_right(x, y)
-        x, y = s.mid_left
+        s.set_top_mid(x, y)
+        x, y = s.bot_mid

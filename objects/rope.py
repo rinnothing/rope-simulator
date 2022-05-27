@@ -18,7 +18,7 @@ class Rope(Object):
     def __init__(self, segments, color=pygame.Color('black')):
         for s in segments:
             self.segments.append(s)  # from head to tail
-        self.x, self.y = self.segments[0].mid_right
+        self.x, self.y = self.segments[0].top_mid
         self.color = color
 
     def draw(self, surface):
