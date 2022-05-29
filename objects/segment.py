@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import utils.config as cfg
 
 from . object import Object
 
@@ -9,8 +10,9 @@ right side attached to previous
 left side attached to next
 """
 class Segment(Object):
-    g = 9.8
     F = 0 #perpendicular force
+    F1 = 0 #previous force
+    F2 = 0 #next force
 
     def __init__(self, x, y, l, d, angle, m, speed=(0, 0), w = 0):
         self.m = m                          #the mass 
@@ -23,9 +25,8 @@ class Segment(Object):
         self.angle = angle                  #angle between vertical and the line of symmetry (clockwise)
         self.speed = speed                  #the speed (on x and y coordinate)
         self.w = w                          #the rotation speed (clockwise)
-    
-    
-    @property
+        
+    @property    
     def top_left(self): #top_left
         return (self.x + self.l/2 * np.sin(self.angle) - self.d/2 * np.cos(self.angle), self.y - self.l/2 * np.cos(self.angle) - self.d/2 * np.sin(self.angle))
     
