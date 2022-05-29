@@ -1,9 +1,6 @@
-from pygame.rect import Rect
-
-#based
-class GameObject:
-    def __init__(self, x, y, w, h, speed=(0, 0)):
-        self.bounds = Rect(x, y, w, h)
+class Object:
+    def __init__(self, points, speed=(0, 0)):
+        self.points = points
         self.speed = speed
     
     @property
