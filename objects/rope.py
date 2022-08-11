@@ -21,7 +21,6 @@ class Rope(Object):
     def __init__(self, segments, color=pygame.Color('black'), between_color = pygame.Color('Red'), ph=PHYSICS_ROTATION):
         for s in segments:
             self.segments.append(s)  # from head to tail
-        self.x, self.y = self.segments[0].top_mid
         self.phy = ph
         self.color = color
         self.between_color = between_color

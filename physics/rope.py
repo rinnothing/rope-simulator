@@ -1,4 +1,5 @@
 import numpy as np
+from maths.vector3D import Vector3D
 import utils.config as cfg
 
 def physics_rotation(self):
@@ -15,31 +16,25 @@ def physics_rotation(self):
         x, y = s.bot_mid
 
 def physics_elasticity(self):
-    self.segments[0].angle = 0
+    for s in self.segments:
+        s.F = Vector3D(0, 0, 0)
+
     for i in range(len(self.segments)-1):
         s1 = self.segments[i]
         s2 = self.segments[i+1]
 
-        s1.F2 = cfg.k * (((s1.x-s2.x)**2 + (s1.y-s2.y)**2)**(1/2) - (s1.l/2+s2.l/2))
-        s2.F1 = s1.F2
+        spring = s1.pos - s2.pos
+        springlength = spring.length
 
-        cos = (s1.x - s2.x) / ((s1.x-s2.x)**2 + (s1.y-s2.y)**2)**(1/2)
-        sin = (s1.y - s2.y) / ((s1.x-s2.x)**2 + (s1.y-s2.y)**2)**(1/2)
+        if springlength != 0:
+            force = -(spring / springlength) * (springlength - (s1.l + s2.l)/2) * cfg.k
 
-        s1.speed = (s1.speed[0] - (s1.F2*cos)/s1.m * cfg.ak * (1/cfg.fps), s1.speed[1] - ((s1.F2*sin)/s1.m - cfg.g/2) * cfg.ak * (1/cfg.fps))
-        s2.speed = (s2.speed[0] + (s2.F1*cos)/s2.m * cfg.ak * (1/cfg.fps), s2.speed[1] + ((s2.F1*sin)/s1.m + cfg.g/2) * cfg.ak * (1/cfg.fps))
+            s1.F += force
+            s2.F += -force
 
-        s2.angle = 0
-        if s1.x != s2.x: 
-            tg = (s1.y - s2.y)/(s1.x - s2.x)
-            s1.angle += (np.pi/2 - np.arctan(tg))/2
-            s2.angle += (np.pi/2 - np.arctan(tg))/2
-
-    self.segments[0].speed = (0, 0)
-
+    g = Vector3D(0, cfg.g, 0)
     for s in self.segments:
-        s.x += s.speed[0] * (1/cfg.fps)
-        s.y += s.speed[1] * (1/cfg.fps)
+        s.F += g * s.m
 
 def physics_newton(self):
     V = np.zeros((len(self.segments)+1, len(self.segments)+1))
