@@ -25,8 +25,11 @@ class Segment(Object):
 
     def update(self):
         if self.status == 0:
-            a = self.F / self.m * (cfg.sk / cfg.fps)
-            self.pos += a * (cfg.sk / cfg.fps)
+            a = self.F / self.m
+            self.speed += a * (cfg.sk / cfg.fps)
+        
+        self.pos += self.speed * (cfg.sk / cfg.fps)
+
         
     def getpos(self):
         return (self.pos.x, self.pos.y)

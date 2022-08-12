@@ -38,7 +38,23 @@ class Vector3D:
     def __isub__(self, other):
         return self - other
 
+    #square length of vector
+    def lengthsq(self):
+        return self.x**2 + self.y**2 + self.z**2
+
     #length of vector
     @property
     def length(self):
-        return (self.x**2 + self.y**2 + self.z**2)**(1/2)
+        return self.lengthsq()**(1/2)
+
+    #returns scalar composition
+    def scalar(self, vector):
+        return self.x*vector.x + self.y*vector.y + self.z*vector.z
+
+    #returns k of projection
+    def project_k(self, vector):
+        return self.scalar(vector) / self.lengthsq()
+
+    #returns vector projection on this vector
+    def project(self, vector):
+        return self * self.project_k(vector)
