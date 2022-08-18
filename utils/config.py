@@ -1,5 +1,5 @@
 fps = 30
-sk = 1
+sk = 10
 width = 720
 height = 720
 

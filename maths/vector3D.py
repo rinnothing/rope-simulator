@@ -53,8 +53,16 @@ class Vector3D:
 
     #returns k of projection
     def project_k(self, vector):
-        return self.scalar(vector) / self.lengthsq()
+        return self.scalar(vector) / self.length
 
     #returns vector projection on this vector
     def project(self, vector):
         return self * self.project_k(vector)
+
+    #returns vector that perpendicular to this vector
+    def perpendicular(self, vector):
+        return vector - self.project(vector)
+
+    #returns direction of the vector
+    def direction(self):
+        return self / self.length

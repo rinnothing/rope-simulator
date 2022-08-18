@@ -24,7 +24,7 @@ class Segment(Object):
         self.speed = Vector3D(velx, vely, 0)#the velocity of the segment
 
     def update(self):
-        if self.status == 0:
+        if True:
             a = self.F / self.m
             self.speed += a * (cfg.sk / cfg.fps)
         
