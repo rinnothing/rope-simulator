@@ -53,12 +53,13 @@ def physics_newton(self):
         s1 = self.segments[i]
         s2 = self.segments[i+1]
         line = (s1.pos - s2.pos).direction()
+        l = (s1.pos-s2.pos).length
 
         if i != 0:
             F[i][3*i-1] = line.project_k((self.segments[i-1].pos-s1.pos).direction())
             
         if i+1 != n-1:
-            F[i][3*i+2] = line.project_k((s2.pos-self.segments[i+2].pos).direction())
+            F[i][3*i+5] = line.project_k((s2.pos-self.segments[i+2].pos).direction())
 
         F[i][3*i+2] = -2
 
@@ -66,8 +67,7 @@ def physics_newton(self):
         F[i][3*i+1] = line.project_k(y)
         F[i][3*(i+1)] = -line.project_k(x)
         F[i][3*(i+1)+1] = -line.project_k(y)
-        S[i] = line.project_k((s1.m - s2.m)*g) - line.perpendicular(s2.speed).lengthsq() / (s1.pos-s2.pos).length * s2.m + line.perpendicular(s1.speed).lengthsq() / (s1.pos-s2.pos).length * s1.m
-
+        S[i] = line.project_k((s2.m - s1.m)*g) - line.perpendicular(s1.speed - s2.speed).lengthsq() * 2 / l * s1.m * s2.m / (s1.m + s2.m)
     for i in range(n):
         s = self.segments[i]
 
