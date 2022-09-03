@@ -1,8 +1,12 @@
-fps = 30
-sk = 10
+"""Window parameters"""
 width = 720
 height = 720
 
-g = 9.8
-k = 100
-ak = 0.8
+"""Time constants"""
+fps = 60 #how many fps window display
+sk = 10 #how many times time speed increased
+
+"""Physical constants"""
+g = 9.8 #gravity constant
+k = 100 #spring elasticity constant
+ak = 0.8 #air resistance constant
