@@ -1,5 +1,6 @@
 import pygame
 import sys
+import utils.config as cfg
 
 from collections import defaultdict
 
@@ -49,14 +50,16 @@ class Window:
                     handler(event.type, event.pos)
 
     def physics(self):
+
         for o in self.objects:
             o.physics()
 
     def run(self):
         while not self.game_over:
-            self.handle_events()
-            self.physics()
-            self.update()
+            for i in range(int(cfg.upfr / cfg.fps)):
+                self.handle_events()
+                self.physics()
+                self.update()
             
             self.surface.fill(pygame.Color('white'))
             self.draw(self.surface)
