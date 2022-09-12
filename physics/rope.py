@@ -54,19 +54,19 @@ def physics_newton(self):
         l = (s1.pos-s2.pos).length
 
         if i != 0:
-            F[i][3*i-1] = line.project_k((self.segments[i-1].pos-s1.pos).direction()) #f0_p
+            F[i][3*i-1] = line.project_k((self.segments[i-1].pos-s1.pos).direction()) * s2.m #f0_p
             
         if i+1 != n-1:
-            F[i][3*i+5] = line.project_k((s2.pos-self.segments[i+2].pos).direction()) #f2_p
+            F[i][3*i+5] = line.project_k((s2.pos-self.segments[i+2].pos).direction()) * s1.m #f2_p
 
-        F[i][3*i+2] = -2 # 2 * f1
+        F[i][3*i+2] = -(s1.m + s2.m) # 2 * f1
 
         #these forces are forces that are used for making constant segments constant, for movable segments their are zero
-        F[i][3*i] = line.project_k(x) #x and y are already directions
-        F[i][3*i+1] = line.project_k(y)
-        F[i][3*(i+1)] = -line.project_k(x)
-        F[i][3*(i+1)+1] = -line.project_k(y)
-        S[i] = line.project_k((s2.m - s1.m)*g) - line.perpendicular(s1.speed - s2.speed).lengthsq() * 2 / l * s1.m * s2.m / (s1.m + s2.m)
+        F[i][3*i] = line.project_k(x) * s2.m #x and y are already directions
+        F[i][3*i+1] = line.project_k(y) * s2.m
+        F[i][3*(i+1)] = -line.project_k(x) * s1.m
+        F[i][3*(i+1)+1] = -line.project_k(y) * s1.m
+        S[i] = - line.perpendicular(s1.speed - s2.speed).lengthsq() / l * s1.m * s2.m
     for i in range(n):
         s = self.segments[i]
 
