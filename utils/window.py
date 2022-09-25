@@ -4,8 +4,8 @@ import utils.config as cfg
 
 from collections import defaultdict
 
-# based
 
+# based
 
 class Window:
     def __init__(self,
@@ -60,7 +60,7 @@ class Window:
                 self.handle_events()
                 self.physics()
                 self.update()
-            
+
             self.surface.fill(pygame.Color('white'))
             self.draw(self.surface)
             pygame.display.update()

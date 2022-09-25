@@ -16,7 +16,7 @@ class Rope(Object):
     PHYSICS_ELASTICITY = 2
     PHYSICS_NEWTON = 3
 
-    def __init__(self, segments, color=pygame.Color('black'), between_color = pygame.Color('Red'), ph=PHYSICS_ROTATION):
+    def __init__(self, segments, color=pygame.Color('black'), between_color=pygame.Color('Red'), ph=PHYSICS_ROTATION):
         self.segments = []
         for s in segments:
             self.segments.append(s)  # from head to tail
