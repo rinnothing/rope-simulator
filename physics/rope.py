@@ -39,8 +39,7 @@ def physics_newton(self):
         s.F = Vector3D(0, 0, 0)
 
     g = Vector3D(0, cfg.g, 0)
-    x = Vector3D(1, 0,
-                 0)  # unit vector along OX axis (vector such that if you multiply it by a number N you'll get vector
+    x = Vector3D(1, 0, 0)  # unit vector along OX axis (vector such that if you multiply it by a number N you'll get vector
     # that is collinear to the vector and has length of N)
     y = Vector3D(0, 1, 0)  # unit vector along OY axis (pygame counts pixels from top, so Y coordinates are reversed)
 
@@ -96,7 +95,8 @@ def physics_newton(self):
 
         F[n - 1 + i * 2][3 * i] = 1  # = x.project_k(x)
         F[n - 1 + i * 2 + 1][3 * i + 1] = 1  # = y.project_k(y)
-        S[n - 1 + i * 2 + 1] = s.m * cfg.g
+        S[n - 1 + i * 2 + 1] = s.m * -s.forced_a.project(x).length
+        S[n - 1 + i * 2 + 1] = s.m * (cfg.g + s.forced_a.project(y).length)
 
     Forces = np.linalg.solve(F, S)
 
