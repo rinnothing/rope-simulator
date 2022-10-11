@@ -95,8 +95,9 @@ def physics_newton(self):
 
         F[n - 1 + i * 2][3 * i] = 1  # = x.project_k(x)
         F[n - 1 + i * 2 + 1][3 * i + 1] = 1  # = y.project_k(y)
-        S[n - 1 + i * 2 + 1] = s.m * -s.forced_a.project(x).length
-        S[n - 1 + i * 2 + 1] = s.m * (cfg.g + s.forced_a.project(y).length)
+        
+        S[n - 1 + i * 2] = s.m * x.project_k(s.forced_a) * s.forced_a.length
+        S[n - 1 + i * 2 + 1] = s.m * (y.project_k(s.forced_a) * s.forced_a.length + cfg.g)
 
     Forces = np.linalg.solve(F, S)
 

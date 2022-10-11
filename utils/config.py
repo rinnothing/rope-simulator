@@ -15,8 +15,12 @@ terra_y = 50
 aspectRatio = terra_x / terra_y
 
 """Window parameters"""
-width = 1000
+width = 800
 height = width * aspectRatio
 
 """Useful constants"""
 scale = width / terra_x
+
+"""Quadrocopter constants"""
+q_a = 9 #max top acceleration
+q_angle_accel = 1/2 #max angle acceleration

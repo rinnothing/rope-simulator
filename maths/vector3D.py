@@ -53,6 +53,8 @@ class Vector3D:
 
     #returns k of projection
     def project_k(self, vector):
+        if self.length == 0:
+            return 0
         return self.scalar(vector) / self.length
 
     #returns vector projection on this vector
