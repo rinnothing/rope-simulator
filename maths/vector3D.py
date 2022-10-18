@@ -55,7 +55,7 @@ class Vector3D:
     def project_k(self, vector):
         if self.length == 0:
             return 0
-        return self.scalar(vector) / self.length
+        return self.scalar(vector) / self.lengthsq()
 
     #returns vector projection on this vector
     def project(self, vector):

@@ -32,6 +32,8 @@ class Segment(Object):
 
     def update(self):
         a = self.F / self.m
+        if self.status == self.CONSTANT:
+            print(self.forced_a, a)
         self.speed += a * (cfg.sk / cfg.fps / int(cfg.upfr / cfg.fps))
         self.pos += self.speed * (cfg.sk / cfg.fps / int(cfg.upfr / cfg.fps))
 
