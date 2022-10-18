@@ -42,7 +42,6 @@ class Quadrocopter(Object):
         self.angle += self.angle_speed * (cfg.sk / cfg.fps / int(cfg.upfr / cfg.fps))
         
         self.a = self.a_forced - Vector3D(0, cfg.g, 0)
-        print(self.a)
         self.speed += self.a * (cfg.sk / cfg.fps / int(cfg.upfr / cfg.fps))
         self.pos += self.speed * (cfg.sk / cfg.fps / int(cfg.upfr / cfg.fps))
 
