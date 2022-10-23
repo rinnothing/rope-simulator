@@ -2,6 +2,7 @@ import pygame
 import numpy as np
 import utils.config as cfg
 from maths.vector3D import Vector3D
+from maths.DWapproach import approach
 
 from .object import Object
 from graphics.quadrocopter import draw as draw_quadrocopter
@@ -14,16 +15,18 @@ class Quadrocopter(Object):
 
     F = Vector3D(0, 0, 0)
 
-    def __init__(self, x, y, angle, w, h, m, top_speed, angle_speed, color=pygame.Color('grey'), attached_seg=None):
+    def __init__(self, x, y, angle, w, h, m, top_speed, angle_speed, color=pygame.Color('grey'), attached_seg=None, attached_rope=None, edges=None):
         self.m = m
         self.w = w
         self.h = h
         self.att_seg = attached_seg
+        self.att_rope = attached_rope
         self.angle = angle #from top to right
         self.angle_speed = angle_speed
         self.angle_accel = 0
         self.a = Vector3D(0, 0, 0)
         self.a_forced = Vector3D(0, 0, 0)
+        self.edges = edges
 
         self.color = color
 
@@ -34,6 +37,8 @@ class Quadrocopter(Object):
         draw_quadrocopter(self, surface, self.color)
     
     def physics(self):
+        approach(self, self.edges)
+
         if self.att_seg != None:
             self.att_seg.forced_a = self.a_forced - Vector3D(0, cfg.g, 0)
 

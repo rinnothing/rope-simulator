@@ -10,7 +10,7 @@ def dec_speed(self):
     self.a_forced = 0
 
 def inc_angle(self):
-    self.angle_accel = cfg.angle_accel
+    self.angle_accel = cfg.q_angle_accel
 
 def dec_angle(self):
     self.angle_accel = 0

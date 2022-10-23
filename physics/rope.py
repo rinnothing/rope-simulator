@@ -34,7 +34,7 @@ def physics_elasticity(self):
 # OX axis is oriented from left side of the screen to the right
 # OY axis is oriented from bottom side of the screen to the top
 
-def physics_newton(self):
+def calc_newton(self):
     for s in self.segments:
         s.F = Vector3D(0, 0, 0)
 
@@ -99,6 +99,16 @@ def physics_newton(self):
         S[n - 1 + i * 2] = s.m * x.project_k(s.forced_a) * x.length
         S[n - 1 + i * 2 + 1] = s.m * (y.project_k(s.forced_a) * y.length + cfg.g)
     Forces = np.linalg.solve(F, S)
+    return Forces
+
+def physics_newton(self):
+    g = Vector3D(0, cfg.g, 0)
+    x = Vector3D(1, 0, 0)
+    y = Vector3D(0, 1, 0)
+
+    n = len(self.segments)
+
+    Forces = calc_newton(self)
 
     for i in range(n):
         s = self.segments[i]

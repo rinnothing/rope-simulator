@@ -23,6 +23,9 @@ class Rope(Object):
         self.phy = ph
         self.color = color
         self.between_color = between_color
+        self.ttl_length = 0
+        for s in segments:
+            self.ttl_length += s.l
 
     def draw(self, surface):
         draw_rope(self, surface, self.color, self.between_color)
