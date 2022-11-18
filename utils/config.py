@@ -1,6 +1,7 @@
 """Time constants"""
 fps = 60  # how many fps window display
-upfr = 1000  # how many times per second physics updates
+upfr = 360  # how many times per second physics updates
+upup = 36 #on what updte in order approch is made
 sk = 8  # how many times time speed increased
 
 """Physical constants"""
@@ -22,19 +23,20 @@ height = width * aspectRatio
 scale = width / terra_x
 
 """Quadrocopter constants"""
-q_a = 20 #max top acceleration
-q_angle_accel = 1/2 #max angle acceleration
+q_a = 12 #max top acceleration
+q_angle_accel = 1 #max angle acceleration
 q_v = 100 #max top velocity
 q_angle_vel = 3.14 #max angle velocity 
 
 """Approach constants"""
-appr_a_res=19.9 #what acceleration difference between checks should be
-appr_w_res=1/2.1
-speed_w=2 #weight of speed aspect
+appr_a_res=1 #what acceleration difference between checks should be
+appr_w_res=1/32
+speed_w = 2 #weight of speed aspect
 dist_w = 2 #weight of height aspect
-tgth_w = 2 #weight of taraget heading aspect
+tgth_w = 200 #weight of taraget heading aspect
 
 """Autopilot constants"""
 req_sp = 10 #what speed required
 req_dist = 1 #what distance between lower end of rope and ground required
-tgt_x = 50 #what x autopilot oriented to 
+tgt_x = 30 #what x autopilot oriented to
+tgt_y = 40

@@ -28,6 +28,8 @@ class Quadrocopter(Object):
         self.a_forced = Vector3D(0, 0, 0)
         self.edges = edges
 
+        self.counter = 0
+
         self.color = color
 
         self.pos = Vector3D(x, y, 0)  # position of the quadrocopter
