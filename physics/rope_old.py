@@ -98,6 +98,7 @@ def calc_newton(self):
         
         S[n - 1 + i * 2] = s.m * x.project_k(s.forced_a) * x.length
         S[n - 1 + i * 2 + 1] = s.m * (y.project_k(s.forced_a) * y.length + cfg.g)
+
     Forces = np.linalg.solve(F, S)
     return Forces
 

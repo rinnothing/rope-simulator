@@ -4,7 +4,7 @@ import numpy as np
 from objects.object import Object
 from objects.segment import Segment
 from graphics.rope import draw as draw_rope
-import physics.rope as phys
+import physics.rope_old as phys
 
 """
 The class describes rope (also rope contains rope segments so there is part of their physics)
