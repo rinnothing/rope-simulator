@@ -16,7 +16,7 @@ terra_y = 50
 aspectRatio = terra_x / terra_y
 
 """Window parameters"""
-width = 800
+width = 1000
 height = width * aspectRatio
 
 """Useful constants"""

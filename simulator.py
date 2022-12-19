@@ -18,15 +18,15 @@ segs = []
 #       -> the length of segment is counted based on the distance between the segments
 
 for i in range(num):
-    #segs.append(Segment(10 - i * 0.2, 10 - i * 0.5, 0.5, 2, 0.04, 0, 0))
-    segs.append(Segment(10, 10 - i * 0.5, 0.5, 2, 0.04, 0, 0))
+    segs.append(Segment(25, 25 - i * 0.5, 0.5, 2, 0.04, 0, 0))
+    # segs.append(Segment(25 - i * 0.2, 25, 0.5, 2, 0.04, 0, 0))
 
 edges = []
 # edge = Edge(0, 10, 50, 20)
 # edges.append(edge)
 
 segs[0].status = Segment.CONSTANT
-segs[0].forced_a = Vector3D(-2, 0, 0)
+segs[0].forced_a = Vector3D(0, 0, 0)
 
 r = Rope(segs, ph=Rope.PHYSICS_NEWTON)
 

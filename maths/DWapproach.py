@@ -1,7 +1,7 @@
 import numpy as np
 from maths.vector3D import Vector3D
 import utils.config as cfg
-from physics.rope_old import calc_newton
+from physics.rope import calc_newton
 from objects.edge import Edge
 
 def approach(self, edges):
