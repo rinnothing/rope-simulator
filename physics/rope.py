@@ -12,6 +12,7 @@ def calc_newton(self):
     for s in self.segments:
         s.F = Vector3D(0, 0, 0)
 
+    g = Vector3D(0, cfg.g, 0)
     x = Vector3D(1, 0,
                  0)  # unit vector along OX axis (vector such that if you multiply it by a number N you'll get a vector
     # that is collinear to the vector and has a length of N)
@@ -28,52 +29,55 @@ def calc_newton(self):
     # if centripetal force increased it would be: f0_p + f2_p - 2 * f1 = (m2 - m1)g_p - centr.force
 
     # in order to find forces in system we fill the matrix
-    F = np.zeros((n, n))
-    S = np.zeros(n)
-    # | F_1 F_2 F_3 F_4 F_5 F_6 ... F_n-2 F_n-1 F_zn |
-    # |                                              | (sum of constant forces for 1st segment)
-    # |                                              | (sum of constant forces for 2nd segment)
-    # |                                              | (sum of constant forces for 3rd segment)
-    # |                                              | ( .... )
-    # |                                              | (sum of constant forces for n-2 segment)
-    # |                                              | (sum of constant forces for n-1 segment)
-    # |                                              | (sum of constant forces for  n  segment)
+    F = np.zeros((n - 1, n - 1))
+    S = np.zeros(n - 1)
+    # | F_1 F_2 F_3 F_4 F_5 F_6 ... F_n-2 F_n-1 |
+    # |                                         | (sum of constant forces for 1st segment)
+    # |                                         | (sum of constant forces for 2nd segment)
+    # |                                         | (sum of constant forces for 3rd segment)
+    # |                                         | ( .... )
+    # |                                         | (sum of constant forces for n-2 segment)
+    # |                                         | (sum of constant forces for n-1 segment)
+    # |                                         | (sum of constant forces for  n  segment)
 
-    line = (self.segments[0].pos - self.segments[1].pos).direction()
-    F[0][0] = -(self.segments[0].m + self.segments[1].m)
-    F[0][1] = line.project_k((self.segments[1].pos - self.segments[2].pos).direction()) * self.segments[0].m
-
-    for i in range(1, n - 2):
-        s_i0 = self.segments[i - 1]
+    for i in range(0, n - 1):
         s_i1 = self.segments[i]
         s_i2 = self.segments[i + 1]
-        s_i3 = self.segments[i + 2]
         line = (s_i1.pos - s_i2.pos).direction()
         l = (s_i1.pos - s_i2.pos).length
 
-        F[i][i - 1] = line.project_k((s_i0.pos - s_i1.pos).direction()) * s_i2.m  # f_i-1_p
-        F[i][i] = -(s_i1.m + s_i2.m)  # 2 * fi
-        F[i][i + 1] = line.project_k((s_i2.pos - s_i3.pos).direction()) * s_i1.m  # f_i+1_p
+        if i != 0:
+            s_i0 = self.segments[i - 1]
+            F[i][i - 1] = line.project_k((s_i0.pos - s_i1.pos).direction()) * s_i2.m  # f_i-1_p
+            S[i] += - line.project(line.perpendicular(s_i0.speed - s_i1.speed)).lengthsq() / l * s_i2.m
 
-        S[i] += - line.perpendicular(s_i0.speed - s_i1.speed).lengthsq() / l * s_i2.m
-        S[i] += line.lengthsq() / l * (s_i1.m + s_i2.m)
-        S[i] += - line.perpendicular(s_i2.speed - s_i3.speed).lengthsq() / l * s_i1.m
+        F[i][i] = -(s_i1.m + s_i2.m)  # 2 * f
+        S[i] += (s_i1.speed - s_i2.speed).lengthsq() / l * (s_i1.m + s_i2.m)
 
-    line = (self.segments[n - 2].pos - self.segments[n - 1].pos).direction()
-    F[n - 2][n - 3] = line.project_k((self.segments[n - 3].pos - self.segments[n - 2].pos).direction()) * self.segments[
-        n - 1].m
-    F[n - 2][n - 2] = - (self.segments[n - 2].m + self.segments[n - 1].m)
+        if i != n - 2:
+            s_i3 = self.segments[i + 2]
+            F[i][i + 1] = line.project_k((s_i2.pos - s_i3.pos).direction()) * s_i1.m  # f_i+1_p
+            S[i] += - line.project(line.perpendicular(s_i2.speed - s_i3.speed)).lengthsq() / l * s_i1.m
 
-    F[n - 1][n - 1] = 0
-
-    s = self.segments[n - 1]
-    S[n - 1] = math.sqrt(
-        (s.m * x.project_k(s.forced_a) * x.length) ** 2 + (s.m * (y.project_k(s.forced_a) * y.length + cfg.g)) ** 2)
+    for i in range(n - 1):
+        s = self.segments[i]
+        line = (s.pos - self.segments[i + 1].pos).direction()
+        l = (s.pos - self.segments[i + 1].pos).length
+        if s.forced_a.lengthsq() != 0:
+            if i != 0:
+                F[i][i - 1] = 1
+                S[i] += - line.project(line.perpendicular(self.segments[i - 1].speed - s.speed)).lengthsq() / l
+            if i != n - 1:
+                F[i][i + 1] = -1
+                S[i] += line.project(
+                    line.perpendicular(self.segments[i + 1].speed - self.segments[i + 2].speed)).lengthsq() / l
+            S[i] = (line.project(s.forced_a - g)).length * (s.m + self.segments[i + 1].m)
 
     # print(F)
 
     Forces = np.linalg.solve(F, S)
     return Forces
+
 
 def physics_newton(self):
     g = Vector3D(0, cfg.g, 0)
@@ -84,13 +88,11 @@ def physics_newton(self):
 
     Forces = calc_newton(self)
 
-    print(Forces)
-
     for i in range(n):
         s = self.segments[i]
 
         # adding forces to segments
-        if i != 0:
+        if i != 0 and i != n - 1:
             line = self.segments[i - 1].pos - s.pos
             s.F += line.direction() * Forces[i]
 
@@ -98,7 +100,9 @@ def physics_newton(self):
             line = s.pos - self.segments[i + 1].pos
             s.F -= line.direction() * Forces[i]
 
-        s.F += x * Forces[i]
-        s.F += y * Forces[i]
+        if i == n - 1:
+            line = self.segments[i - 1].pos - s.pos
+            s.F -= line.direction() * Forces[i - 1]
+
         s.F -= s.m * g  # adding gravity force
         s.F -= s.speed * cfg.ak  # adding air resistance force
