@@ -9,7 +9,7 @@ import utils.manual_control as mancon
 
 g = Window("Test, don't touch!!!", cfg.width, cfg.height, cfg.fps)
 
-num = 50
+num = 10
 
 segs = []
 # every segment has these params: x, y, r, l, m, velx, vely
@@ -18,14 +18,14 @@ segs = []
 #       -> the length of segment is counted based on the distance between the segments
 
 for i in range(num):
-    # segs.append(Segment(25, 25 - i * 0.5, 0.5, 2, 0.04, 0, 0))
-    segs.append(Segment(25 - i * 0.2, 47, 0.5, 2, 0.04, 0, 0))
+    segs.append(Segment(25, 25 - i * 0.5, 0.5, 2, 0.04, 0, 0))
+    #segs.append(Segment(25 - i * 0.2, 47, 0.5, 2, 0.04, 0, 0))
 
 edges = []
 # edge = Edge(0, 10, 50, 20)
 # edges.append(edge)
 
-segs[0].forced_a = Vector3D(0, 500, 0)
+segs[0].forced_a = Vector3D(0, -9.8*num, 0)
 
 r = Rope(segs, ph=Rope.PHYSICS_NEWTON)
 

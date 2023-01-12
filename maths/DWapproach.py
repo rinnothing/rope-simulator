@@ -67,16 +67,15 @@ def predict_cords(self, forced_a):
         # adding forces to segments
         if i != 0:
             line = self.segments[i - 1].pos - s.pos
-            F += line.direction() * Forces[3 * i - 1]
+            s.F += line.direction() * Forces[i-1]
 
         if i != n - 1:
             line = s.pos - self.segments[i + 1].pos
-            F -= line.direction() * Forces[3 * i + 2]
+            s.F -= line.direction() * Forces[i]
 
-        F += x * Forces[3 * i]
-        F += y * Forces[3 * i + 1]
-        F -= s.m * g  # adding gravity force
-        F -= s.speed * cfg.ak  # adding air resistance force
+        s.F += s.forced_a * s.m
+        s.F += s.m * g  # adding gravity force
+        s.F -= s.speed * cfg.ak  # adding air resistance force
 
         speed += F/s.m * (cfg.sk / cfg.fps / int(cfg.upfr / cfg.fps) * cfg.upup)
         pred_vel[i] = speed
